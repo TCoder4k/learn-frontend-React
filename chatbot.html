@@ -23,42 +23,47 @@
         function ChatBot(){
             return(
                 <>
-                    <input placeholder="Send a message to ChatBot" size="30"/>
+                    <input
+                      placeholder="Send a message to ChatBot" 
+                      size="30"
+                     />
                     <button>Spend</button>
                 </>
             )  
         }
         function ChatMessage({message, sender}){
-            if(sender === 'robot'){
-                return(
-                     <div>
-                         <img src="chatbot.png" width="50"/>
-                        {message}
-                    </div>
-                )
-            }
+           
             return(
                 <div>
+                    {sender === 'robot' && 
+                    (<img src="chatbot.png" width="50"/>
+                    )}
                     {message}
-                    <img src="sontungmtp.jpg" width="50"/>
+                    {sender === 'user' && 
+                    (<img src="sontungmtp.jpg" width="50"/>
+                   )}
+
                 </div>
             )
         }
-        
-          const app = (
-                <>
+
+        function App(){
+            return (
+   <>
                     <ChatBot />
                     <ChatMessage message="Hello Chatbot" sender="user"/>
                     <ChatMessage message="Hello! How can i help you" sender="robot"/>
                     <ChatMessage message="Get date" sender="user"/>
                     <ChatMessage message="Today is June 9" sender="robot"/>
                 </>  
-          ) ; 
+            )
+        }
+         
 
 
       const container = document.querySelector('.js-container');
          const root =  ReactDOM.createRoot(container);
-        root.render(app);
+        root.render(<App />);
 
     </script>
     </body>
