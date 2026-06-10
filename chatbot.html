@@ -1,70 +1,104 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Chatbot</title>
     </head>
     <body>
-
         <div class="js-container"></div>
         <!-- import dayjs library -->
-        <script src="https://unpkg.com/supersimpledev/dayjs.js">
-          
-        </script>
+        <script src="https://unpkg.com/supersimpledev/dayjs.js"></script>
         <!-- import react library -->
 
         <script src="https://unpkg.com/supersimpledev/react.js"></script>
         <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
 
         <script src="https://unpkg.com/supersimpledev/babel.js"></script>
-        <script type="text/babel"> 
+        <script type="text/babel">
+      function ChatBot() {
+        return (
+          <>
+            <input placeholder="Send a message to ChatBot" size="30" />
+            <button>Spend</button>
+          </>
+        );
+      }
+      function ChatMessage({ message, sender }) {
+        return (
+          <div>
+            {sender === "robot" && <img src="chatbot.png" width="50" />}
+            {message}
+            {sender === "user" && <img src="sontungmtp.jpg" width="50" />}
+          </div>
+        );
+      }
+    function ChatMessages(){
+        const [chatMessages,setChatMessage] = React.useState( [
+          {
+            message: "Hello Chatbot",
+            sender: "user",
+            id: 'id1'
+          },
+          {
+            message: "Hello! How can i help you",
+            sender: "robot",
+             id: 'id2'
+          },
+          {
+            message: "Get data",
+            sender: "user",
+             id: 'id3'
+          },
+          {
+            message: "Today is June 9",
+            sender: "robot",
+             id: 'id4'
+          },
+        ])
+        
+        function sendMessage(){
+            setChatMessage([
+                ...chatMessages,
+                {
+                    message: 'test',
+                    sender: 'user',
+                    id: crypto.randomUUID()
+                }
 
-        function ChatBot(){
-            return(
-                <>
-                    <input
-                      placeholder="Send a message to ChatBot" 
-                      size="30"
-                     />
-                    <button>Spend</button>
-                </>
-            )  
+            ])
         }
-        function ChatMessage({message, sender}){
-           
-            return(
-                <div>
-                    {sender === 'robot' && 
-                    (<img src="chatbot.png" width="50"/>
-                    )}
-                    {message}
-                    {sender === 'user' && 
-                    (<img src="sontungmtp.jpg" width="50"/>
-                   )}
+        return(
+            <>
+<button onClick={sendMessage}>Send Message</button>
 
-                </div>
-            )
-        }
+         {chatMessages.map((chatMessage) => {
+              return (
+                <ChatMessage
+                  message={chatMessage.message}
+                  sender={chatMessage.sender}
+                  key={chatMessage.id}
+                />
+              );
+            })}
+            </>
+        )
+    }
 
-        function App(){
-            return (
-   <>
-                    <ChatBot />
-                    <ChatMessage message="Hello Chatbot" sender="user"/>
-                    <ChatMessage message="Hello! How can i help you" sender="robot"/>
-                    <ChatMessage message="Get date" sender="user"/>
-                    <ChatMessage message="Today is June 9" sender="robot"/>
-                </>  
-            )
-        }
-         
+      function App() {
+       
 
+        return (
+          <>
+            <ChatBot />
+           <ChatMessages />
+          </>
+        );
+      }
 
-      const container = document.querySelector('.js-container');
-         const root =  ReactDOM.createRoot(container);
-        root.render(<App />);
-
+      const container = document.querySelector(".js-container");
+      const root = ReactDOM.createRoot(container);
+      root.render(<App />);
     </script>
     </body>
 </html>
