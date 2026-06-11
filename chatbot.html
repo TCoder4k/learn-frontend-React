@@ -27,6 +27,7 @@
         }
 
         function sendMessage(){
+          if(inputText.trim() === '') return;
             setChatMessages([
                 ...chatMessages,
                 {
@@ -36,17 +37,19 @@
                 }
 
             ])
+            setInputText('');
         }
 
         return (
           <>
             <input
             onChange={saveInputText}
-            placeholder="Send a message to ChatBot" size="30" />
-            <button
-            onClick={sendMessage}
-            >
-              Spend
+            placeholder="Send a message to ChatBot" size="30" 
+            value={inputText}
+            />
+
+            <button onClick={sendMessage} >
+              Send
               </button>
           </>
         );
