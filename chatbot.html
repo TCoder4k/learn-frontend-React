@@ -12,6 +12,7 @@
     <!-- import react library -->
 
     <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/chatbot.js"></script>
     <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
 
     <script src="https://unpkg.com/supersimpledev/babel.js"></script>
@@ -28,7 +29,7 @@
 
         function sendMessage(){
           if(inputText.trim() === '') return;
-            setChatMessages([
+            const newChatMessages = ([
                 ...chatMessages,
                 {
                     message: inputText,
@@ -38,11 +39,27 @@
 
             ])
             setInputText('');
+            const response = Chatbot.getResponse(inputText);
+            setChatMessages([
+                ...newChatMessages,
+                {
+                    message: response,
+                    sender: 'robot',
+                    id: crypto.randomUUID()
+                }
+
+            ])
         }
 
+        function handleKeyDown(event){
+          if(event.key === 'Enter'){
+            sendMessage();
+          }
+        }
         return (
           <>
             <input
+            onKeyDown={handleKeyDown}
             onChange={saveInputText}
             placeholder="Send a message to ChatBot" size="30" 
             value={inputText}
@@ -107,7 +124,6 @@
              id: 'id4'
           },
         ])
-        s
         return (
           <>
             <ChatInput 
