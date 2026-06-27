@@ -4,7 +4,84 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chatbot</title>
+    <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .chat-container {
+      width: 400px;
+      height: 600px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .messages {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+    }
+
+    .message {
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .message.user {
+      justify-content: flex-end;
+    }
+
+    .message.robot {
+      justify-content: flex-start;
+    }
+
+    .message img {
+      border-radius: 50%;
+      margin: 0 8px;
+    }
+
+    .input-area {
+      display: flex;
+      padding: 10px;
+      border-top: 1px solid #ddd;
+      background: #fafafa;
+    }
+
+    .input-area input {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      outline: none;
+    }
+
+    .input-area button {
+      margin-left: 10px;
+      padding: 8px 12px;
+      background: #4a90e2;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .input-area button:hover {
+      background: #357ab8;
+    }
+  </style>
   </head>
+
   <body>
     <div class="js-container"></div>
     <!-- import dayjs library -->
@@ -57,48 +134,47 @@
           }
         }
         return (
-          <>
-            <input
-            onKeyDown={handleKeyDown}
-            onChange={saveInputText}
-            placeholder="Send a message to ChatBot" size="30" 
-            value={inputText}
-            />
-
-            <button onClick={sendMessage} >
-              Send
-              </button>
-          </>
+          <div className="input-area">
+      <input
+        onKeyDown={handleKeyDown}
+        onChange={saveInputText}
+        placeholder="Send a message to ChatBot"
+        value={inputText}
+      />
+      <button onClick={sendMessage}>Send</button>
+    </div>
         );
       }
 
 //This  place is display and  logic of chat messages
       function ChatMessage({ message, sender }) {
-        return (
-          <div>
-            {sender === "robot" && <img src="chatbot.png" width="50" />}
-            {message}
-            {sender === "user" && <img src="sontungmtp.jpg" width="50" />}
-          </div>
-        );
+       return (
+    <div className={`message ${sender}`}>
+      {sender === "robot" && <img src="chatbot.png" width="40" />}
+      <span>{message}</span>
+      {sender === "user" && <img src="sontungmtp.jpg" width="40" />}
+    </div>
+  );
       }
 
 //This place contains loop chat ms
     function ChatMessages({chatMessages}){
-      
-        return(
-            <>
-         {chatMessages.map((chatMessage) => {
-              return (
-                <ChatMessage
-                  message={chatMessage.message}
-                  sender={chatMessage.sender}
-                  key={chatMessage.id}
-                />
-              );
-            })}
-            </>
-        )
+      //create ref
+      const messageEndRef = React.useRef(null);
+      React.useEffect(()=>{
+        messageEndRef.current?.scrollIntoView({behavier: "smooth"});
+
+      },[chatMessages])
+       return <div className="messages">
+    {chatMessages.map(chatMessage => (
+      <ChatMessage
+        message={chatMessage.message}
+        sender={chatMessage.sender}
+        key={chatMessage.id}
+      />
+    ))}
+    <div ref={messageEndRef} />
+  </div>
     }
 
       function App() {
@@ -124,19 +200,13 @@
              id: 'id4'
           },
         ])
-        return (
-          <>
-            <ChatInput 
-            chatMessages = {chatMessages}
-            setChatMessages = {setChatMessages}
-            />
-           <ChatMessages
-            chatMessages = {chatMessages}
-           />
-          </>
-        );
+       return (
+    <div className="chat-container">
+      <ChatMessages chatMessages={chatMessages}/>
+      <ChatInput chatMessages={chatMessages} setChatMessages={setChatMessages}/>
+    </div>
+  );
       }
-s
       const container = document.querySelector(".js-container");
       const root = ReactDOM.createRoot(container);
       root.render(<App />);
