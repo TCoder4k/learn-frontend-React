@@ -1,0 +1,24 @@
+.messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+}
+
+.message {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+}
+
+.message.user {
+    justify-content: flex-end;
+}
+
+.message.robot {
+    justify-content: flex-start;
+}
+
+.message img {
+    border-radius: 50%;
+    margin: 0 8px;
+}
