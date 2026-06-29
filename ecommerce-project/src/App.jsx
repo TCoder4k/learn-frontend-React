@@ -11,7 +11,7 @@ function App() {
 
   useEffect(() => {
     axios
-      .get("/api/cart-items")
+      .get("/api/cart-items?expand=product")
       .then((res) => {
         setCart(res.data); // dữ liệu JSON đã được parse sẵn
       })
