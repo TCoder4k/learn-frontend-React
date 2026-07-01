@@ -1,5 +1,5 @@
-import { HomePage } from "./pages/HomePage";
-import { CheckoutPage } from "./pages/CheckoutPage";
+import { HomePage } from "./pages/Home/HomePage";
+import { CheckoutPage } from "./pages/Checkout/CheckoutPage";
 import { OrderPage } from "./pages/OrderPage";
 import { Routes, Route } from "react-router";
 import { useState, useEffect } from "react";
