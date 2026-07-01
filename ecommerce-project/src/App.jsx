@@ -10,14 +10,15 @@ function App() {
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("/api/cart-items?expand=product")
-      .then((res) => {
+    async function fetchCart() {
+      try {
+        const res = await axios.get("/api/cart-items?expand=product");
         setCart(res.data); // dữ liệu JSON đã được parse sẵn
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error("Lỗi khi gọi API:", err);
-      });
+      }
+    }
+    fetchCart();
   }, []);
 
   return (

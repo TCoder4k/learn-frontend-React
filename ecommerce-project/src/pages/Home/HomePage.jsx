@@ -8,14 +8,15 @@ export function HomePage({ cart }) {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("/api/products")
-      .then((res) => {
+    async function fetchProducts() {
+      try {
+        const res = await axios.get("/api/products");
         setProducts(res.data); // dữ liệu JSON đã được parse sẵn
-      })
-      .catch((err) => {
-        console.error("Lỗi khi gọi API:", err);
-      });
+      } catch (error) {
+        console.error("Lỗi khi gọi API:", error);
+      }
+    }
+    fetchProducts();
   }, []);
 
   return (

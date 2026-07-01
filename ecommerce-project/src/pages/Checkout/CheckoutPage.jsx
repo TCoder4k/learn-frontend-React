@@ -9,14 +9,15 @@ export function CheckoutPage({ cart }) {
   const [paymentSummary, setPaymentSummary] = useState(null);
 
   useEffect(() => {
-    axios
-      .get("/api/payment-summary")
-      .then((res) => {
+    async function fetchPaymentData() {
+      try {
+        const res = await axios.get("/api/payment-summary");
         setPaymentSummary(res.data); // dữ liệu JSON đã được parse sẵn
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error("Lỗi khi gọi API:", err);
-      });
+      }
+    }
+    fetchPaymentData();
   }, []);
 
   return (
@@ -51,7 +52,7 @@ export function CheckoutPage({ cart }) {
 
         <div className="checkout-grid">
           <OrderSummary cart={cart} />
-          <paymentSummary paymentSummary={paymentSummary} />
+          <PaymentSummary paymentSummary={paymentSummary} />
         </div>
       </div>
     </>
