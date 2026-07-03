@@ -1,8 +1,17 @@
 import "./checkout-header.css";
 import "./CheckoutPage.css";
 import { formatMoney } from "../../utils/money";
+import axios from "axios";
+import { useNavigate } from "react-router";
 
-export function PaymentSummary({ paymentSummary }) {
+export function PaymentSummary({ paymentSummary, loadCart }) {
+  const navigate = useNavigate();
+  const createOrder = async () => {
+    await axios.post("/api/orders");
+    await loadCart();
+
+    navigate("/orders");
+  };
   return (
     <>
       <title>Checkout</title>
@@ -46,7 +55,10 @@ export function PaymentSummary({ paymentSummary }) {
               </div>
             </div>
 
-            <button className="place-order-button button-primary">
+            <button
+              className="place-order-button button-primary"
+              onClick={createOrder}
+            >
               Place your order
             </button>
           </>

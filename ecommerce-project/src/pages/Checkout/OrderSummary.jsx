@@ -9,8 +9,12 @@ export function OrderSummary({ cart, loadCart }) {
       <div className="order-summary">
         {cart.map((cartItem) => {
           const deleteCartItem = async () => {
-            await axios.delete(`/api/cart-items/${cartItem.productId}`);
-            await loadCart();
+            try {
+              await axios.delete(`/api/cart-items/${cartItem.productId}`);
+              await loadCart();
+            } catch (err) {
+              console.error("Lỗi khi xóa item:", err);
+            }
           };
           return (
             <div key={cartItem.productId} className="cart-item-container">
