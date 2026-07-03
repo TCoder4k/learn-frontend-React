@@ -1,12 +1,17 @@
 import "./checkout-header.css";
 import "./CheckoutPage.css";
 import { formatMoney } from "../../utils/money";
+import axios from "axios";
 
-export function OrderSummary({ cart }) {
+export function OrderSummary({ cart, loadCart }) {
   return (
     <>
       <div className="order-summary">
         {cart.map((cartItem) => {
+          const deleteCartItem = async () => {
+            await axios.delete(`/api/cart-items/${cartItem.productId}`);
+            await loadCart();
+          };
           return (
             <div key={cartItem.productId} className="cart-item-container">
               <div className="delivery-date">
@@ -31,7 +36,10 @@ export function OrderSummary({ cart }) {
                     <span className="update-quantity-link link-primary">
                       Update
                     </span>
-                    <span className="delete-quantity-link link-primary">
+                    <span
+                      className="delete-quantity-link link-primary"
+                      onClick={deleteCartItem}
+                    >
                       Delete
                     </span>
                   </div>
@@ -58,7 +66,7 @@ export function OrderSummary({ cart }) {
                   <div className="delivery-option">
                     <input
                       type="radio"
-                      checked
+                      defaultChecked
                       className="delivery-option-input"
                       name="delivery-option-2"
                     />
